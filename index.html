@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konnex World | Advanced Robotic Quiz</title>
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --correct: #2ecc71;
+            --wrong: #e74c3c;
+            --dark-glass: rgba(15, 23, 42, 0.85);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            /* Robotic Background Setup */
+            background-color: #0f172a;
+            background-image: url('https://i.imgur.com/86zV6rL.jpg'); /* Placeholder for your robot background */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* The Faded Overlay Layer */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.95) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--dark-glass);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--secondary);
+            transition: all 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option-label:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        input[type="radio"] {
+            margin-right: 15px;
+            accent-color: var(--primary);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Result Styles */
+        .answer-key {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--primary);
+            font-weight: bold;
+            display: none; /* Hidden until finished */
+        }
+
+        #final-score-box {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Konnex World Interface</h1>
+    <p class="subtitle">AI & Robotics Autonomous Systems Quiz | 40 Modules</p>
+    
+    <div id="quiz-anchor"></div>
+
+    <button class="btn-submit" id="submit-btn" onclick="processResults()">Initiate Scoring Protocol</button>
+
+    <div id="final-score-box"></div>
+</div>
+
+<script>
+const questions = [
+    { q: "What is the first main phase after Ingest in Konnex roadmap?", opts: ["Runtime Zero (R0)", "Mainnet launch", "Token airdrop", "Hardware testing"], ans: 0 },
+    { q: "Innovation: Konnex stops bad validators by doing what?", opts: ["Giving warnings only", "Slashing their staked collateral", "Ignoring failures", "Banning them manually"], ans: 1 },
+    { q: "Benefit: Konnex makes robot deployment feel like what?", opts: ["Buying expensive machines", "Very slow & complicated", "Installing software apps", "Building everything from scratch"], ans: 2 },
+    { q: "Future: When robots hire each other on Konnex, what happens?", opts: ["Chaos and confusion", "They need a central boss", "They create self-organizing fleets", "Work stops completely"], ans: 2 },
+    { q: "How can you get Creator or Early Supporter roles?", opts: ["By buying tokens early", "Being active with content & daily tasks", "Only if you are a developer", "No roles are available"], ans: 1 },
+    { q: "Innovation: What is the main job of miners/validators?", opts: ["Build physical robots", "Run AI models & compete on performance", "Post on social media", "Mine crypto coins only"], ans: 1 },
+    { q: "Benefit of on-chain PoPW?", opts: ["Makes robot work secret", "Slows down payments", "Turns real actions into verifiable receipts", "Requires human confirmation every time"], ans: 2 },
+    { q: "What makes Konnex permissionless?", opts: ["Needs special approval", "Closed to small users", "Anyone can join & submit models/tasks", "Only big companies allowed"], ans: 2 },
+    { q: "What is the goal of Preflight phase?", opts: ["Token launch", "3D simulations for multi-robot testing", "Collect only human feedback", "Sell robot parts"], ans: 1 },
+    { q: "Innovation: Who can become a validator?", opts: ["Only large corporations", "Anyone who stakes & runs good models", "No one is allowed", "Only humans without AI"], ans: 1 },
+    { q: "Benefit: How does Konnex reward developers?", opts: ["No rewards at all", "Pay to use the platform", "Royalties if their AI performs best", "Limit to testing only"], ans: 2 },
+    { q: "Future vision: Robots on Konnex will mostly be?", opts: ["Fully manual", "Virtual simulations only", "Autonomous with trustless contracts", "One robot per job forever"], ans: 2 },
+    { q: "What is the current main task for earning
