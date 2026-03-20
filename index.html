@@ -179,4 +179,89 @@ const questions = [
     { q: "Innovation: Who can become a validator?", opts: ["Only large corporations", "Anyone who stakes & runs good models", "No one is allowed", "Only humans without AI"], ans: 1 },
     { q: "Benefit: How does Konnex reward developers?", opts: ["No rewards at all", "Pay to use the platform", "Royalties if their AI performs best", "Limit to testing only"], ans: 2 },
     { q: "Future vision: Robots on Konnex will mostly be?", opts: ["Fully manual", "Virtual simulations only", "Autonomous with trustless contracts", "One robot per job forever"], ans: 2 },
-    { q: "What is the current main task for earning
+    { q: "What is the current main task for earning points?", opts: ["Posting memes", "Watching videos", "Daily RLHF feedback", "Buying tokens"], ans: 2 },
+    { q: "Innovation: What unlocks automatic payouts?", opts: ["Manual invoice", "PoPW receipt + smart contract", "Human manager approval", "No payouts exist"], ans: 1 },
+    { q: "Benefit for logistics industry?", opts: ["More delays", "Higher labor costs", "Scalable drone/rover fleets on-chain", "Less efficiency"], ans: 2 },
+    { q: "What happens if a model performs poorly?", opts: ["Gets deleted immediately", "Lower KPI score & less royalties", "Automatic win", "No effect at all"], ans: 1 },
+    { q: "What is Ingest Phase mainly about?", opts: ["Launching $KNX", "Selling hardware", "Collecting RLHF feedback", "Marketing campaigns"], ans: 2 },
+    { q: "Innovation: Konnex turns physical robot work into?", opts: ["Free service", "Secret company data", "Verifiable on-chain asset", "Paper contract only"], ans: 2 },
+    { q: "Benefit: Why is Konnex good for small companies?", opts: ["Only big firms win", "Very high fees", "Easy & cheap robot labor access", "Slow deployment"], ans: 2 },
+    { q: "Future: What will robots do on Konnex?", opts: ["Work alone forever", "Only clean houses", "Hire each other & form teams", "Stay offline"], ans: 2 },
+    { q: "How do points (KP) help in testnet?", opts: ["Buy robots now", "Trade for cash today", "Position for $KNX airdrop", "Nothing at all"], ans: 2 },
+    { q: "Innovation: Universal Task Language uses what format?", opts: ["Secret codes", "Only English", "JSON-based grammar", "Images only"], ans: 2 },
+    { q: "Benefit of high reputation?", opts: ["Fewer tasks", "Account gets blocked", "More jobs & lower collateral", "No real impact"], ans: 2 },
+    { q: "What comes right after Preflight?", opts: ["Ingest restart", "Full mainnet only", "On-chain rollout & TGE", "Back to off-chain"], ans: 2 },
+    { q: "What does RLHF stand for in Konnex?", opts: ["Robot Learning Hardware Function", "Random Learning Human Feedback", "Reinforcement Learning from Human Feedback", "Real Labor Human Force"], ans: 2 },
+    { q: "Innovation: Konnex lets robots license what?", opts: ["Only old models", "No sharing allowed", "AI skills & intelligence on-chain", "Physical parts only"], ans: 2 },
+    { q: "Benefit: Konnex is called 'robotics-as-a-service' because?", opts: ["You buy robots forever", "Very expensive service", "Deploy labor like installing apps", "Manual control required"], ans: 2 },
+    { q: "Future: Konnex builds what kind of market?", opts: ["Human job board", "Virtual goods only", "Permissionless physical robot work", "No market at all"], ans: 2 },
+    { q: "What verifies physical robot tasks on Konnex?", opts: ["Human photos only", "Proof-of-Physical-Work (PoPW) using sensors & logs", "AI self-report", "No verification needed"], ans: 1 },
+    { q: "Innovation: Konnex uses stablecoins for what reason?", opts: ["Slow & traditional payments", "Fast, transparent USD-equivalent robot job payouts", "Only for gaming", "No real use"], ans: 1 },
+    { q: "Benefit: Konnex unlocks value in what economy?", opts: ["Digital art NFTs", "$25 trillion physical labor market", "Stock trading only", "Virtual worlds"], ans: 1 },
+    { q: "Future: Coordinated robot fleets on Konnex will?", opts: ["Stay isolated", "Need constant human input", "Self-organize & compound capabilities", "Work only in simulations"], ans: 2 },
+    { q: "What is the native token after TGE?", opts: ["$ETH", "$BTC", "$KNX for governance & fees", "No token"], ans: 2 },
+    { q: "Innovation: Smart contracts in Konnex auto-execute what?", opts: ["Manual tasks", "Job contracts & payments after PoPW", "Social posts", "Nothing"], ans: 1 },
+    { q: "Benefit for AI models?", opts: ["Stay separate forever", "Trade intelligence & grow reputation", "Fixed low pay", "No improvement"], ans: 1 },
+    { q: "What phase tests full runtime constraints?", opts: ["Ingest", "Preflight", "Runtime Zero (R0)", "TGE"], ans: 2 },
+    { q: "How do users earn Konnex Points mainly?", opts: ["By paying money", "Daily RLHF tasks & quests", "Watching ads", "Posting memes only"], ans: 1 },
+    { q: "Innovation: Reputation scores help validators by?", opts: ["Making it harder", "Lowering collateral needed", "Blocking tasks", "Decreasing earnings"], ans: 1 },
+    { q: "Benefit of on-chain settlements?", opts: ["More delays", "Transparent & fast stablecoin payouts", "Higher fees only", "Less trust"], ans: 1 },
+    { q: "Future GDP goal of Konnex?", opts: ["Virtual crypto only", "Human manual jobs", "Autonomous physical labor economy", "Gaming metaverse"], ans: 2 }
+];
+
+function buildQuiz() {
+    const anchor = document.getElementById('quiz-anchor');
+    let content = "";
+    
+    questions.forEach((item, index) => {
+        content += `
+            <div class="question-card" id="card-${index}">
+                <span class="question-text">MODULE ${index + 1}: ${item.q}</span>
+                <div class="options-grid">
+                    ${item.opts.map((opt, i) => `
+                        <label class="option-label">
+                            <input type="radio" name="q${index}" value="${i}">
+                            ${opt}
+                        </label>
+                    `).join('')}
+                </div>
+                <div id="key-${index}" class="answer-key">✅ DATA RECOVERED: ${item.opts[item.ans]}</div>
+            </div>
+        `;
+    });
+    anchor.innerHTML = content;
+}
+
+function processResults() {
+    let score = 0;
+    questions.forEach((item, index) => {
+        const card = document.getElementById(`card-${index}`);
+        const keyReveal = document.getElementById(`key-${index}`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        
+        keyReveal.style.display = "block"; // Reveal the answer key
+
+        if (selected && parseInt(selected.value) === item.ans) {
+            score++;
+            card.style.borderLeftColor = "#2ecc71";
+            card.style.background = "rgba(46, 204, 113, 0.1)";
+        } else {
+            card.style.borderLeftColor = "#e74c3c";
+            card.style.background = "rgba(231, 76, 60, 0.1)";
+        }
+    });
+
+    const scoreBox = document.getElementById('final-score-box');
+    scoreBox.style.display = "block";
+    scoreBox.style.background = score > 30 ? "rgba(46, 204, 113, 0.2)" : "rgba(231, 76, 60, 0.2)";
+    scoreBox.innerHTML = `SYSTEM ANALYSIS COMPLETE<br>Score: ${score} / ${questions.length} Modules Validated`;
+    
+    document.getElementById('submit-btn').innerText = "Protocol Completed";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+buildQuiz();
+</script>
+
+</body>
+</html>
